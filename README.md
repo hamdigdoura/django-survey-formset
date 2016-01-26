@@ -55,7 +55,7 @@ Finally, Run the server `python manage.py runserver`
 
 ## Credits
 For nested inline, i got from this [project](https://github.com/nyergler/nested-formset).
-Thank to [Nathan Yergler](https://github.com/nyergler)
+Thanks to [Nathan Yergler](https://github.com/nyergler)
 
 ## Contact Me
 If you have any questions, comments or suggestion about `django questionnaire inline formset` ?
