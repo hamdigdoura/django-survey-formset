@@ -15,8 +15,6 @@ it is composed of two parts:
 
 Here is some examples:
 
-![ExampleOfstatistics]()
-
 
 ## Features
 
