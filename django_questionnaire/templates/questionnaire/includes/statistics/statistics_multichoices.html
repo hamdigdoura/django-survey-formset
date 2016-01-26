@@ -1,0 +1,25 @@
+{% load create_questionnaire_tags %}
+<div class="card">
+    <div class="card-image blue darken-2" style="height:238px;">
+        <canvas id="{{ question.id }}" width="230" height="250" style="color: #21d3aa; display: inline-block; float: left;"></canvas>
+        <div id="legendDiv{{ question.id }}" style="margin-top:10px; width: 150px; height: 100px; display: inline-block;"></div>
+    </div>
+    <div class="card-content">
+        <span class="card-title activator grey-text text-darken-4">Reponses<i class="material-icons right">info_outline</i></span>
+        <p>Type: <span class="teal-text">{% if question.type == 'MultiChoices' %}Multi choice with one answer {% else %}Multi choice with multi answers {% endif %}</span></p>
+    </div>
+    <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">Detail statistics<i class="material-icons right">close</i></span>
+        <p><br>
+        <h6 class="teal-text">TOTAL RESPONSES: {{ stat.total|floatformat }}</h6><br>
+        {%  for key, value in stat.items %}
+            {% if "count" in key %}
+        <span><i class="material-icons teal-text">label</i>COUNT <strong class="teal-text">{{ key|slice:":-6" }}</strong> : {{ value }}</span><br>
+            {% endif %}
+        {% endfor %}
+
+        </p>
+
+
+    </div>
+</div>

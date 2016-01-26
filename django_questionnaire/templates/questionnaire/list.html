@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Admin{% endblock %}
+
+{% block title_tab %}
+    Questionnaire list
+{% endblock %}
+
+{% block content_tab %}
+    <div class="row">
+        <div class="col s11">
+            <h4> REPERTORY OF QUESTIONNAIRE</h4>
+            <p style="margin-right: 25px; margin-left: 25px;">
+                You find below the list of questionnaires
+                which were written for investigations.
+            </p>
+        </div>
+
+        <div class="col s1">
+            <a class="btn-floating btn-large waves-effect waves-light cyan darken-4" href="{% url 'add-questionnaire' %}"><i class="material-icons">add</i></a>
+        </div>
+    </div>
+    <br>
+    <ul class="collection">
+        {% for questionnaire in questionnaires %}
+            <li class="collection-item avatar">
+                <i class="material-icons circle teal">assignment</i>
+            <span class="title">
+                <a href="{% url 'update-questionnaire' questionnaire.id %}" class="black-text">
+                    {{ questionnaire.title }}</a>
+            </span>
+                <p>
+                <span class="new badge blue-grey" style="position: static;right: 748px; margin-top: 5px;">
+                    {% with number=questionnaire.number_responses %}
+                        {{ number }} response{{ number|pluralize }}
+                    {%endwith %}
+                </span>
+                </p>
+                </p>
+                <a href="{% url 'statistics-questionnaire' questionnaire.id %}" class="secondary-content"><i class="material-icons">insert_chart</i></a>
+            </li>
+        {% empty %}
+            <li>No questionnaire</li>
+
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% load create_questionnaire_tags %}
+
+{% if empty_question %}
+    <div id='{{ question_formset.empty_form.prefix }}' class="empty-question">
+{% endif %}
+<div id="{{ question.prefix }}" style="padding-left: 17px;" {% if empty_question %} class="hide" {% else %} class="dynamic-form-question" {% endif %}>
+    {{ question.non_field_errors }}
+    {% for hidden in question.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
+    <div class="row">
+        <div class="col s6">
+            <div class="input-field {% if question.text.errors %}error{% endif %}">
+                {{ question.text }}
+                <label for="{{ question.text.id_for_label }}" class="black-text">Question</label>
+                {{ question.text.errors }}
+            </div>
+            <p style="padding-left: initial;">
+                {{ question.required }}
+                <label for="{{ question.required.id_for_label }}" class="checkbox black-text">Required question (Require a response to this question)</label>
+            </p>
+        </div>
+        <div class="col s6 {% if question.type.errors %}error{% endif %}">
+            Response types
+            {% for radio in question.type %}
+                <p style="padding: 5px 5px 5px 5px;">
+                    <input class="with-gap" type="radio" name="{{ radio.name }}" value="{{ radio.choice_value }}" id="{{ radio.id_for_label }}"
+                            {% if not question.is_bound %}
+                                {% if question.instance.type %}
+                                    {% ifequal question.instance.type radio.choice_value  %}
+                           checked='checked'
+                                    {% endifequal %}
+                                {% elif question.type.field.initial == radio.choice_value %}
+                           checked='checked'
+                                {% endif %}
+                            {% else %}
+                                {% ifequal question.type.data radio.choice_value %}
+                           checked='checked'
+                                {% endifequal %}
+                            {% endif %}/>
+                    <label for="{{ radio.id_for_label }}">
+                        {{ radio.choice_label }}
+                    </label>
+                </p>
+            {% endfor %}
+            {{ question.type.errors }}
+        </div>
+        <div class="hide">
+            {{ question.ORDER }}
+        </div>
+    </div><!-- Update Question -->
+    {% if empty_question %}
+        {% comment %}
+            Creating a new question (Javascript for collapsing choice)
+        {% endcomment %}
+        {% include "questionnaire/includes/creates/choices.html" with question=question_formset.empty_form %}
+
+        {% block jsextra %}
+            <script>
+                collapseChoice('{{ question_formset.empty_form.prefix }}');
+            </script>
+        {% endblock %}
+    {% else %}
+        {%  with question_formset.errors|get_error_choice:forloop.counter0 as error_choice %}
+            {% include "questionnaire/includes/creates/choices.html" %}
+        {% endwith %}
+    {% endif %}
+</div>
+
+{% if empty_question %}
+    </div>
+{% endif %}

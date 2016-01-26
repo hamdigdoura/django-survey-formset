@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load create_questionnaire_tags %}
+
+{% block title %}Admin{% endblock %}
+{% block title_tab %}
+    Statistics Questionnaire
+{% endblock %}
+
+{% block content_tab %}
+    <div class="section">
+        {% for question in questionnaire %}
+            {% if forloop.counter0|divisibleby:2 %}
+                {% if forloop.counter0 != 0 %}</div><div class="divider"></div>{% endif %}
+                <div class="row">
+            {% endif %}
+            {%  with statistics|get_value:question.id as stat %}
+                <div class="col s6">
+                    <p class="flow-text teal-text truncate" style="width: 415px;margin-top: 0px;margin-bottom: 0px;"><strong>{{ question.text }}</strong></p>
+                    {% if question.type == "MultiChoices" or question.type == "MultiChoiceWithAnswer" %}
+                        {% include "questionnaire/includes/statistics/statistics_multichoices.html" %}
+                    {% elif question.type == "TextField" %}
+                        {% include "questionnaire/includes/statistics/statistics_text.html" %}
+                    {% elif question.type == "RatingField" %}
+                        {% include "questionnaire/includes/statistics/statistics_satistafction.html" %}
+                    {% elif question.type == "yesNoQuestion" %}
+                        {% include "questionnaire/includes/statistics/statistics_yes_no.html" %}
+                    {% endif %}
+                </div>
+
+            {% endwith %}
+
+        {% endfor %}
+            </div>
+    </div>
+
+{% endblock %}
+{% block jsextra %}
+    {% for question in questionnaire %}
+        {%  with statistics|get_value:question.id as stat %}
+            {% if question.type == "MultiChoices" or question.type == "MultiChoiceWithAnswer" %}
+                // Get context with jQuery - using jQuery's .get() method.
+                var ctx = $("#{{ question.id }}").get(0).getContext("2d");
+                // This will get the first returned node in the jQuery collection.
+                {% autoescape off %}
+                    var data{{ question.id }} = {
+                    labels: {{ stat.dates }},
+                    datasets: [
+                    {% for choice, data in stat.choices.items %}
+                        {
+                        label: "{{ choice }}",
+                        fillColor: "rgba(76,{{ forloop.counter0 }}71,81,0.5)",
+                        strokeColor: "rgba(76,{{ forloop.counter0 }}71,81,1)",
+                        pointColor: "rgba(76,{{ forloop.counter0 }}71,81,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(76,{{ forloop.counter0 }}71,81,1)",
+                        data: {{ data}}
+
+                        }{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                    ]
+                    };
+                {% endautoescape %}
+                var legend="";
+                for(var i=0; i<data{{ question.id }}["datasets"].length; i++){
+                legend += "<ul style=\"margin-bottom: 5px !important;\"><div class=\"chip left-align\" style=\"width: 160px;\"> <i class=\"Small material-icons left\" style=\"width: 20px; color:"+ data{{ question.id }}["datasets"][i]["pointColor"]+ ";\">star_rate</i>"+data{{ question.id }}["datasets"][i]["label"]+"</div></ul>";
+                }
+                var myLineChart{{ question.id }} = new Chart(ctx).Line(data{{ question.id }}, {
+                bezierCurve: true,
+                scaleShowGridLines : false,
+                scaleShowHorizontalLines: false,
+
+                //Boolean - Whether to show vertical lines (except Y axis)
+                scaleShowVerticalLines: false,
+                scaleShowGridLines : true
+                });
+                //var legend = myLineChart{{ question.id }}.generateLegend();
+                $("#legendDiv{{ question.id }}").append(legend);
+                //document.getElementById("legendDiv{{ question.id }}").innerHTML = myLineChart{{ question.id }}.generateLegend();
+            {% elif question.type == "RatingField" %}
+                $('.{{ question.id }}').easyPieChart({
+                animate: 5000,
+                barColor: '#FFFFFF',
+                trackColor: '#CCCCCC',
+                scaleColor: '#dfe0e0',
+                lineWidth: 7,
+                size: 200,
+                onStep: function(from, to, percent) {
+                this. el.children[0].innerHTML = Math.round(percent)+'%';
+                }
+
+                });
+            {% elif question.type == "yesNoQuestion" %}
+                var val{{ question.id }} = $("#{{ question.id }}").get(0).getContext("2d");
+                var datax = [
+                {
+                value: {{ stat.percent_no }},
+                color:"#8b644e",
+                highlight: "#cc7d9e",
+                label: "Responded 'No' "
+                },
+                {
+                value: {{ stat.percent_yes }},
+                color: "#3ebf61",
+                highlight: "#21d3aa",
+                label: "Responded 'Yes' "
+                },
+                {
+                value: {{ stat.percent_other }},
+                color: "#FDB45C",
+                highlight: "#FFC870",
+                label: "No responses"
+                }
+                ];
+
+                var myDoughnutChart = new Chart(val{{ question.id }}).Doughnut(datax,{
+                bezierCurve: false
+                });
+            {% endif %}
+        {% endwith %}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,14 @@
+
+<!-- Add a new questionnaire -->
+{{ form.non_field_errors }}
+<div class="input-field {% if form.title.errors %}error{% endif %}">
+    {{ form.title }}
+    <label for="{{ form.title.id_for_label }}" data-error="This field is required" class="checkbox black-text" >Title</label>
+    {{ form.title.errors }}
+</div>
+<div class="input-field {% if form.description.errors %}error{% endif %}">
+    {{ form.description }}
+    <label class="black-text" for="{{ form.description.id_for_label }}">Description</label>
+    {{ form.description.errors }}
+</div>
+<!-- End Questionnaire -->

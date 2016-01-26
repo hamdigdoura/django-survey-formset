@@ -1,0 +1,55 @@
+<div class="card">
+    <div class="card-image  deep-purple" style="text-align: center; margin-bottom:1px; height:238px;">
+        <div class="{{ question.id }}" data-percent="{{ stat.satisfaction_total }}" width="200" height="200" style="
+            display: inline-block;
+            margin-top: 5px;
+            width: 200px;
+            height:205px;
+            line-height: 3;
+            text-align: center;
+            float: left;
+            ">
+            <div class="percent" style="text-align: center;
+            color: white;
+            font-size: 65px;
+            height: 5px;">{{ stat.satisfaction_total }}%</div>
+
+        </div>
+        <h5 class="white-text" style="display: inline-block;margin-bottom: 63px;">Total Ranking</h5>
+        <div style="float: right; display: inline-block; margin-right: 5px;">
+            <ul>
+                <li style="margin-bottom: 5px !important;">
+                    <div class="chip left-align" style="width: 185px;">
+                        <i class="Small material-icons left teal-text" style="width: 20px;">star_rate</i>Number <strong class="teal-text">"Good"</strong>: {{ stat.good_count }}
+                    </div>
+                </li>
+                <li style="margin-bottom: 5px !important;">
+                    <div class="chip left-align" style="width: 185px;">
+                        <i class="Small material-icons left teal-text" style="width: 20px;">star_rate</i>Number <strong class="teal-text">"OK"</strong>: {{ stat.ok_count }}
+                    </div>
+                </li>
+                <li style="margin-bottom: 5px !important;">
+                    <div class="chip left-align" style="width: 185px;">
+                        <i class="Small material-icons left teal-text" style="width: 20px;">star_rate</i>Number <strong class="teal-text">"Poor"</strong>: {{ stat.poor_count }}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-content">
+        <span class="card-title activator grey-text text-darken-4">Reponses<i class="material-icons right">info_outline</i></span>
+        <p>Type: <span class="teal-text">Rating Question  </span> <br>
+        </p>
+    </div>
+    <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">Responses<i class="material-icons right">close</i></span>
+        <p>
+        <br>
+        <h6 class="teal-text">TOTAL RESPONSES: {{ stat.total|floatformat }}</h6><br>
+            <span><i class="material-icons teal-text">label</i>COUNT <strong class="teal-text">Good</strong> : {{ stat.good_count }}</span><br>
+            <span><i class="material-icons teal-text">label</i>COUNT <strong class="teal-text">OK</strong> : {{ stat.ok_count }}</span><br>
+            <span><i class="material-icons teal-text">label</i>COUNT <strong class="teal-text">Poor</strong> : {{ stat.poor_count }}</span><br>
+            {% if stat.not_responding %}<span><i class="material-icons teal-text">label</i>Not responding : {{ stat.not_responding }}</span>{% endif %}
+        </p>
+    </div>
+</div>

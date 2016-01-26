@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{% if url_questionnaire %} Admin {% else %}Participant{% endif %}{% endblock %}
+{% block title_tab %}
+    Share
+{% endblock %}
+{% block content_tab %}
+
+    {% if url_questionnaire %}
+        <div class="center-align">
+            <h2>Congratulations !</h2>
+            <p class="flow-text">Your questionnaire was added and you can share via Facebook or Linkedin the link bellow
+            </p>
+            <a href="{{ url_questionnaire }}">{{ url_questionnaire }}</a>
+        </div>
+    {% else %}
+        <h2 class="center-align">Thank You !</h2>
+        <p class="flow-text">Thank you for taking the questionnaire. Your response is very important to us
+        </p>
+    {% endif %}
+
+{% endblock %}

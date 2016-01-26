@@ -1,0 +1,163 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'css/star-rating.min.css' %}" media="all" rel="stylesheet" type="text/css" />
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Style Sheet CSS -->
+    <style>
+        label {
+            text-transform: none;
+        }
+        .block_white {
+            background-color: #fff;
+            padding: 10px 15px 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        .form_b{
+            padding: 25px 30px;
+            border-radius: 5px;
+            background-color: hsla(0, 0%, 95%, 0.32);
+            margin-bottom: 20px;
+            overflow: auto;
+        }
+        body.dragging, body.dragging * {
+            cursor: move !important;
+        }
+
+        .dragged {
+            position: absolute;
+            opacity: 0.5;
+            z-index: 2000;
+        }
+        li.itemTodrag{
+            margin-top: 25px !important;
+        }
+        span.badge.new:after {
+            content: " ";
+        }
+
+        .error > input {
+            border-bottom: 1px solid #F44336;
+            box-shadow:0 1px 0 0 #F44336;
+        }
+        .error >textarea {
+            border-bottom: 1px solid #F44336;
+            box-shadow:0 1px 0 0 #F44336;
+        }
+        .error > label{
+            color: #ff6258 !important;
+        }
+        .errorlist {
+            margin-left: 25px;
+            margin-top: 0;
+            color: #ff6258;
+        }
+        .chart {
+            line-height: 3;
+            text-align: center;
+        }
+        .percent {
+
+            text-align: center;
+            color: white;
+            font-size: 50px;
+            height: 0px;
+
+        }
+    </style>
+    <!-- End Style Sheet  -->
+    <!--Import Library -->
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/star-rating.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.easypiechart.min.js' %}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+
+    <!-- Import Formset -->
+    <script type="text/javascript" src="{% static 'js/dynamic-formsetjs.js' %}"></script>
+
+    <!-- Import other scripts -->
+    <script>
+        $(document).ready(function(){
+            {% block jsextra %}
+
+            {% endblock %}
+        });
+    </script>
+
+
+</head>
+
+<body>
+<nav class="teal lighten-2">
+    <div class="nav-wrapper">
+        <a href="#!" class="brand-logo">{% block title %}{% endblock %}</a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="sass.html"><i class="material-icons">search</i></a></li>
+            <li><a href="badges.html"><i class="material-icons">view_module</i></a></li>
+            <li><a href="collapsible.html"><i class="material-icons">refresh</i></a></li>
+            <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
+        </ul>
+    </div>
+</nav> <!-- End Navigation bar -->
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s3"><a href="#form1">{% block title_tab %}{% endblock %}</a></li>
+                    {% block other_tabs %}{% endblock %}
+                </ul>
+            </div> <!-- Tabs Navigation -->
+            <div class="row form_b z-depth-1">
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="card-panel{% if message.tags == 'error' %} red{% else %} teal{% endif %}" >{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <div id="form1">{% block content_tab %}{% endblock %}</div>
+                {% block other_tabs_content %}{% endblock %}
+
+            </div> <!-- Tabs Container -->
+        </div>
+    </div>
+</div> <!-- End container -->
+
+<footer class="page-footer teal lighten-2">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Django Survey with Inline Formset</h5>
+                <p class="grey-text text-lighten-4">The most simple way to create your surveys.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Follow me</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="https://www.linkedin.com/in/hamdi-gdoura-8750bba4">Linkedin</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://plus.google.com/108959165335864725620">Google</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2016 - 2015 Copyright to MIT License (MIT)
+        </div>
+    </div>
+</footer> <!-- End Footer -->
+
+</body><!-- End Body -->
+</html>

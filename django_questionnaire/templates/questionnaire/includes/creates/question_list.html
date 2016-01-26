@@ -1,0 +1,61 @@
+
+<div class="row"  style="margin-bottom: 0px;">
+    <div class="col s11">
+        <i class="teal white-text left-align" id="{{ question.prefix }}-counter">{{ forloop.counter }}</i>
+        <b>{{ question.instance.text }}</b>
+    </div>
+    <div class="col s1">
+        <a class="" href="javascript:deleteFormSet(this, '{{ question_formset.prefix }}', '', '{{ question.prefix }}');" data-original-title="Supprimer"><i class="small material-icons teal-text">delete</i></a>
+        <div class="hidden">
+            {{ question.DELETE }}
+        </div>
+    </div>
+</div>
+<ul style="padding-left: 50px;">
+    {% if question.instance.type == "yesNoQuestion" %}
+        <li style="height: 30px;">
+                        <span>
+                            <i class="material-icons teal-text" style="height: 30px; margin-right: 5px;">
+                                label</i>YES</span>
+        </li>
+        <li style="height: 30px;">
+                        <span>
+                            <i class="material-icons teal-text" style="height: 30px; margin-right: 5px;">
+                                label</i>NO</span>
+        </li>
+    {% elif question.instance.type == 'MultiChoiceWithAnswer' or question.instance.type == 'MultiChoices' %}
+        {% for choice in question.nested %}
+            {% if choice.instance.text  %}
+                <li style="height: 30px;">
+                        <span>
+                            <i class="material-icons teal-text" style="height: 30px; margin-right: 5px;">
+                                label</i>{{ choice.instance.text }}
+                        </span>
+                </li>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+</ul>
+<hr>
+<div class="row" style="margin-bottom: 0px;">
+    <div class="col s6">
+        <strong>Response options:</strong>
+        <span class="teal-text">
+            {% if question.instance.type == "MultiChoiceWithAnswer" %}
+                Choices with multiple answer
+            {% elif question.instance.type == "MultiChoices" %}
+                Multiple choices
+            {% elif question.instance.type == "yesNoQuestion" %}
+                Yes / No
+            {% elif question.instance.type == "RatingField" %}
+                Rating Scale
+            {% elif question.instance.type == "TextField" %}
+                Comment Area
+            {% endif %}
+        </span>
+    </div>
+    {% if question.instance.required %}
+        <div class="col s6 right-align"><span class="material-icons teal-text ">error_outline</span><strong>Required Question</strong></div>
+    {% endif %}
+</div>

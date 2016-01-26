@@ -1,0 +1,23 @@
+<h4>{{ questionnaire.title_questionnaire }}</h4>
+{% for question in form %}
+    {% if not forloop.first	%}
+        <div class="divider"></div>
+    {% endif %}
+    <div class="section">
+        <h5>{{ question.label }}{% if question.required %}<span class="red-text">(*)</span> {% endif %}</h5>
+        <div style="margin-left: 25px; margin-right: 25px;">
+            {% if question|length_is:"1" %}
+                {{ question }}
+            {% else %}
+                {% for choice in question %}
+                    <p>
+                        {{ choice.tag }}
+                        <label for="{{ choice.id_for_label }}">{{ choice.choice_label }}</label>
+                    </p>
+                {% endfor %}
+            {% endif %}
+        {{ question.errors }}
+        </div>
+    </div>
+{% endfor %}
+<br>

@@ -1,0 +1,31 @@
+{% load create_questionnaire_tags %}
+{% if empty_choice %}
+    <div id='{{ question_formset.empty_form.nested.prefix }}' class="empty-choice" style="display: none;">
+{% endif %}
+
+<div id="{{ choice.prefix }}-order" {% if empty_choice %} class="hide" {% else %} class="dynamic-form-choice-{{ question.prefix }}" {% endif %} >
+    {% for hidden in choice.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+    {% if choice.instance.id %}
+        <div class="hide">{{ choice.DELETE }}</div>
+    {% endif %}
+    <div class="row" style="margin-bottom: 0px; margin-left: 13px;">
+        <div class="col s6">
+            <div class="input-field">
+                {{ choice.text }}
+                <label for="{{ choice.text.id_for_label }}">Response</label>
+                {{ choice.text.errors }}
+            </div>
+        </div>
+        <div class="col s3">
+            <a id="remove-{{ choice.prefix }}-row" href="javascript:deleteFormSet(this, '{{ question.nested.prefix }}', 'dynamic-form-choice-{{ question.prefix }}', '{{ choice.prefix}}');" class="delete-choice-{{ choice.prefix }}">
+                <i class="material-icons teal-text">delete</i>
+            </a>
+        </div>
+    </div>
+
+</div>
+{% if empty_choice %}
+    </div>
+{% endif %}

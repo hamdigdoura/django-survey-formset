@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load create_questionnaire_tags %}
+{% block title %} Admin {% endblock %}
+
+{% comment %} ----*** Create questionnaire that contains update and create ***---- {% endcomment %}
+{% block title_tab %}
+    Create Questionnaire
+{% endblock %}
+
+{% block content_tab %}
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form.management_form }}
+        {% include "questionnaire/includes/creates/questionnaire_add.html" %}
+        <br><br>
+        <h4 style="font-size: 17px;" class="flow-text teal-text"><strong>Questions:</strong></h4>
+        {{ question_formset.management_form }}
+        <input id="id_{{ question_formset.prefix }}-DEL_NUM_FORMS" name="{{ question_formset.prefix }}-DEL_NUM_FORMS" type="hidden" value=0>
+        {% if form.instance.id %}
+            {% comment %} -----*** Updating Questions ***------ {% endcomment %}
+            <ul class="collapsible popout" data-collapsible="accordion">
+                {% for question in question_formset %}
+                    <li class="itemTodrag" id="{{ question.prefix }}-list">
+                        <div class="collapsible-header">
+                            {% include "questionnaire/includes/creates/question_list.html" %}
+                        </div>
+                        <div class="collapsible-body">
+                            <br>
+                            <br>
+                            {% include "questionnaire/includes/creates/question.html" %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <br>
+            <div class="row {{ question_formset.prefix }}-add">
+                <div class="col offset-s6">
+                    <a class="btn-floating btn-large waves-effect waves-light teal darken-4"
+                       href="javascript:addFormSet(this, '{{ question_formset.prefix }}', 'collapsible', 'empty-question');" >
+                        <i class="material-icons">add</i>
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            {% comment %} ----*** Creating Question ***----- {% endcomment %}
+            {% for question in question_formset %}
+                {% include "questionnaire/includes/creates/question.html" %}
+            {% endfor %}
+        {% endif %}
+        <br>
+        <div class="row">
+            {% if form.instance.id %}
+                {% comment %} -----*** Updating Questions ***------ {% endcomment %}
+                <!-- Go to thanks Page -->
+                <div class="col s6 left-align">
+                    <a href="{% url 'thanks-page' %}?url={% url 'show-questionnaire' form.instance.id %}" class="btn waves-effect waves-light teal white-text">Finish</a>
+                </div>
+            {% else %}
+                <!-- Return to list questionnaire -->
+                <div class="col s6 left-align">
+                    <a href="{% url 'list-questionnaire' %}" class="btn waves-effect waves-light teal white-text">Cancel</a>
+                </div>
+            {% endif %}
+            <div class="col s6 right-align">
+                <button class="btn waves-effect waves-light " type="submit" name="action">Save
+                    <i class="material-icons right">fast_forward</i>
+                </button>
+            </div>
+        </div><!-- Button submit-->
+        <!-- All Empty Formset Here -->
+        {% if form.instance.id %}
+            <!-- Empty Question -->
+            {% include "questionnaire/includes/creates/question.html" with question=question_formset.empty_form empty_question="True" %}
+            <!-- End Empty Question -->
+        {% endif %}
+        <!-- Empty Empty choice -->
+        {% include "questionnaire/includes/creates/choice.html" with choice=question_formset.empty_form.nested.empty_form question=question_formset.empty_form empty_choice="True" %}
+        <!-- End Empty Choice -->
+    </form>
+{% endblock %}
+
+
+{% comment %} ----*** Display Questionnaire in the second tab Only in update ***---- {% endcomment %}
+{% block other_tabs %}
+    {% if form.instance.id %}
+        <li class="tab col s3"><a href="#form2">Display Questionnaire</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block other_tabs_content %}
+    {% if form.instance.id %}
+        <div id="form2">
+            {% include "questionnaire/includes/displays/display_questionnaire.html" with form=display_questions %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+{% comment %} ----*** Extra Javscript ***---- {% endcomment %}
+{% block jsextra %}
+    <!-- Script scroll to error And collapsing choices -->
+    {% for question in question_formset %}
+        {% if form.instance.id %}
+            {%  with question_formset.errors|get_error_choice:forloop.counter0 as error_choice %}
+                {% if question.errors or error_choice %}
+                    formError('{{ question.prefix }}');
+                {% endif %}
+            {% endwith %}
+        {% endif %}
+    {% endfor %}
+
+    // Collapsing the choice
+    $('.dynamic-form-question').each(function(){
+        collapseChoice(this.id);
+    });
+    <!-- End scroll and collapse -->
+    <!-- -->
+$("ul.collapsible").sortable({
+            items: "li.itemTodrag",
+            opacity: 0.5,
+            stop: orderingListForm()
+    });
+
+{% endblock %}

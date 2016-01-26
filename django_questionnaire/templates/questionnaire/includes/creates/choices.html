@@ -1,0 +1,20 @@
+<!-- Choices fields -->
+<div id="{{ question.prefix }}-display" class="display-none-{{ question.prefix }}" style=" display: none;">
+        <div class="row" id="choices">
+            <input id="id_{{ question.nested.prefix }}-DEL_NUM_FORMS" name="{{ question.nested.prefix }}-DEL_NUM_FORMS" type="hidden" value=0>
+            {{ question.nested.management_form }}
+            {% if error_choice %}
+                <div class="errorlist">
+                    {{ error_choice }}
+                </div>
+            {% endif %}
+
+            {% for choice in question.nested %}
+               {% include "questionnaire/includes/creates/choice.html" %}
+            {% endfor %}
+
+            <span class="{{ question.nested.prefix }}-add" style="font-size:13px; margin-left: 49px;"><a href="javascript:addFormSet(this, '{{ question.nested.prefix }}','dynamic-form-choice-{{ question.prefix }}', 'empty-choice');"><b>+</b></a></span>
+        </div>
+
+</div>
+<!-- End Choice Fields -->
