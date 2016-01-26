@@ -30,7 +30,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         ],
     keywords=['questionnaire', 'nested inline formset', 'survey'],
-    url='https://github.com/hamdigdoura/django_survey_formset',
+    url='https://github.com/hamdigdoura/django-survey-formset.git',
     license='MIT License',
     install_requires=[
         'Django>=1.9',
