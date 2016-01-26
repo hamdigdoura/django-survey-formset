@@ -15,6 +15,7 @@ it is composed of two parts:
 
 Here is some examples:
 
+![examples](https://s3.amazonaws.com/questionnairedjango/survey/questionnaire.jpg)
 
 ## Features
 
@@ -44,7 +45,7 @@ Create a new env for the project and switch to it
 > workon django_questionnaire
 
 
-Clone the repo with `git clone https://github.com/.git.`
+Clone the repo with `git clone https://github.com/hamdigdoura/django_survey_formset.git`
 
 After, run `pip install -r requirements.txt` and `python setup.py install`
 
