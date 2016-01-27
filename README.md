@@ -15,7 +15,7 @@ it is composed of two parts:
 
 Here is some examples:
 
-![examples](https://s3.amazonaws.com/questionnairedjango/survey/questionnaire.jpg)
+![examples](https://s3.amazonaws.com/questionnairedjango/survey/questionnairrr.jpg)
 
 ## Features
 
