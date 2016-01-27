@@ -1,6 +1,6 @@
-# Django questionnaire with InlineFormset
+# Django questionnaire with Nested Formset
 
-The application get with new aspect the most simple for questionnaire based on **InlineFormset**,
+The application get with new aspect the most simple for questionnaire based on **Nested Formset**,
 it is composed of two parts:
 
 - Backend part, it's related to **admin** that can:
@@ -19,7 +19,7 @@ Here is some examples:
 
 ## Features
 
-* based on nested inline formset
+* based on nested formset
 * participant has one attempt
 * Question can be ordered by **drag and drop**
 * Awesome template based on [materializecss](http://materializecss.com/)
@@ -59,5 +59,5 @@ For nested inline, i got from this [project](https://github.com/nyergler/nested-
 Thanks to [Nathan Yergler](https://github.com/nyergler)
 
 ## Contact Me
-If you have any questions, comments or suggestion about `django questionnaire inline formset` ?
+If you have any questions, comments or suggestion about `django questionnaire formset` ?
 Hit me up at [Hamdi Gdoura](hamdigdouraisi@gmail.com)
