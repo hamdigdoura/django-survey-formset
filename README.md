@@ -60,4 +60,4 @@ Thanks to [Nathan Yergler](https://github.com/nyergler)
 
 ## Contact Me
 If you have any questions, comments or suggestion about `django questionnaire formset` ?
-Hit me up at [Hamdi Gdoura](hamdigdouraisi@gmail.com)
+Hit me up at [Hamdi Gdoura](hahahaha)
